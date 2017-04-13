@@ -1,0 +1,1391 @@
+[00;31m#########################################################[00m
+[00;31m#[00m [00;33mLocal Linux Enumeration & Privilege Escalation Script[00m [00;31m#[00m
+[00;31m#########################################################[00m
+[00;33m# www.rebootuser.com[00m
+[00;33m# [00m
+
+Debug Info
+thorough tests = disabled
+
+
+[00;33mScan started at:
+Thu Apr 13 21:13:56 CST 2017
+[00m
+
+[00;33m### SYSTEM ##############################################[00m
+[00;31mKernel information:[00m
+Linux bj-app-21.ruyicai.com 2.6.32-358.el6.x86_64 #1 SMP Fri Feb 22 00:31:26 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
+
+
+[00;31mKernel information (continued):[00m
+Linux version 2.6.32-358.el6.x86_64 (mockbuild@c6b8.bsys.dev.centos.org) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-3) (GCC) ) #1 SMP Fri Feb 22 00:31:26 UTC 2013
+
+
+[00;31mSpecific release information:[00m
+CentOS release 6.4 (Final)
+LSB_VERSION=base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch
+Red Hat Enterprise Linux Server release 6.4 (Tikanga)
+CentOS release 6.4 (Final)
+
+
+[00;31mHostname:[00m
+bj-app-21.ruyicai.com
+
+
+[00;33m### USER/GROUP ##########################################[00m
+[00;31mCurrent user/group info:[00m
+uid=500(appusr) gid=500(appusr) groups=500(appusr)
+
+
+/var/log/lastlog: Permission denied
+[00;31mAll users and uid/gid info:[00m
+root:x:0:0
+bin:x:1:1
+daemon:x:2:2
+sync:x:5:0
+shutdown:x:6:0
+halt:x:7:0
+mail:x:8:12
+operator:x:11:0
+gopher:x:13:30
+ftp:x:14:50
+nobody:x:99:99
+vcsa:x:69:69
+saslauth:x:499:76
+postfix:x:89:89
+sshd:x:74:74
+appusr:x:500:500
+ntp:x:38:38
+dbus:x:81:81
+rtkit:x:498:498
+pulse:x:497:497
+haldaemon:x:68:68
+avahi-autoipd:x:170:170
+gdm:x:42:42
+rpc:x:32:32
+rpcuser:x:29:29
+nfsnobody:x:65534:65534
+zabbix:x:501:501
+
+
+[00;31mGroup memberships:[00m
+uid=0(root) gid=0(root) groups=0(root)
+uid=1(bin) gid=1(bin) groups=1(bin),2(daemon),3(sys)
+uid=2(daemon) gid=2(daemon) groups=2(daemon),1(bin)
+uid=5(sync) gid=0(root) groups=0(root)
+uid=6(shutdown) gid=0(root) groups=0(root)
+uid=7(halt) gid=0(root) groups=0(root)
+uid=8(mail) gid=12(mail) groups=12(mail)
+uid=11(operator) gid=0(root) groups=0(root)
+uid=13(gopher) gid=30(gopher) groups=30(gopher)
+uid=14(ftp) gid=50(ftp) groups=50(ftp)
+uid=99(nobody) gid=99(nobody) groups=99(nobody)
+uid=69(vcsa) gid=69(vcsa) groups=69(vcsa)
+uid=499(saslauth) gid=76(saslauth) groups=76(saslauth)
+uid=89(postfix) gid=89(postfix) groups=89(postfix),12(mail)
+uid=74(sshd) gid=74(sshd) groups=74(sshd)
+uid=500(appusr) gid=500(appusr) groups=500(appusr)
+uid=38(ntp) gid=38(ntp) groups=38(ntp)
+uid=81(dbus) gid=81(dbus) groups=81(dbus)
+uid=498(rtkit) gid=498(rtkit) groups=498(rtkit)
+uid=497(pulse) gid=497(pulse) groups=497(pulse)
+uid=68(haldaemon) gid=68(haldaemon) groups=68(haldaemon)
+uid=170(avahi-autoipd) gid=170(avahi-autoipd) groups=170(avahi-autoipd)
+uid=42(gdm) gid=42(gdm) groups=42(gdm)
+uid=32(rpc) gid=32(rpc) groups=32(rpc)
+uid=29(rpcuser) gid=29(rpcuser) groups=29(rpcuser)
+uid=65534(nfsnobody) gid=65534(nfsnobody) groups=65534(nfsnobody)
+uid=501(zabbix) gid=501(zabbix) groups=501(zabbix)
+
+
+[00;31mSample entires from /etc/passwd (searching for uid values 0, 500, 501, 502, 1000, 1001, 1002, 2000, 2001, 2002):[00m
+root:x:0:0:root:/root:/bin/bash
+appusr:x:500:500::/home/appusr:/bin/bash
+zabbix:x:501:501::/home/zabbix:/bin/bash
+
+
+[00;31mSuper user account(s):[00m
+root
+
+
+[00;31mAre permissions on /home directories lax:[00m
+total 20K
+drwxr-xr-x.  4 root   root   4.0K Apr 11 16:18 .
+dr-xr-xr-x. 25 root   root   4.0K Apr  6 08:52 ..
+drwx------.  9 appusr appusr 4.0K Apr 13 12:29 appusr
+drwx------.  4 zabbix zabbix 4.0K Dec 15  2014 zabbix
+
+
+[00;33m### ENVIRONMENTAL #######################################[00m
+[00;31mPath information:[00m
+/usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/src/jdk1.6.0_29/bin:/usr/local/src/jdk1.6.0_29/jre/bin:/home/appusr/bin
+
+
+[00;31mAvailable shells:[00m
+/bin/sh
+/bin/bash
+/sbin/nologin
+/bin/dash
+
+
+[00;31mCurrent umask value:[00m
+0002
+u=rwx,g=rwx,o=rx
+
+
+[00;33m### JOBS/TASKS ##########################################[00m
+[00;31mCron jobs:[00m
+-rw-r--r--. 1 root root    0 Jul 19  2011 /etc/cron.deny
+-rw-r--r--. 1 root root  495 Dec 12  2014 /etc/crontab
+
+/etc/cron.d:
+total 16
+drwxr-xr-x.  2 root root 4096 Dec 11  2014 .
+drwxr-xr-x. 98 root root 4096 Apr 13 19:54 ..
+-rw-r--r--.  1 root root  113 Jul 19  2011 0hourly
+-rw-r--r--.  1 root root  108 Dec  7  2012 raid-check
+
+/etc/cron.daily:
+total 24
+drwxr-xr-x.  2 root root 4096 Dec 12  2014 .
+drwxr-xr-x. 98 root root 4096 Apr 13 19:54 ..
+-rwx------.  1 root root  118 Oct 15  2014 cups
+-rwxr-xr-x.  1 root root  196 Aug 16  2012 logrotate
+-rwxr-xr-x.  1 root root  905 Feb 22  2013 makewhatis.cron
+-rwxr-xr-x.  1 root root  365 Oct 16  2009 tmpwatch
+
+/etc/cron.hourly:
+total 12
+drwxr-xr-x.  2 root root 4096 Sep 27  2011 .
+drwxr-xr-x. 98 root root 4096 Apr 13 19:54 ..
+-rwxr-xr-x.  1 root root  424 Jul 19  2011 0anacron
+
+/etc/cron.monthly:
+total 8
+drwxr-xr-x.  2 root root 4096 Sep 27  2011 .
+drwxr-xr-x. 98 root root 4096 Apr 13 19:54 ..
+
+/etc/cron.weekly:
+total 8
+drwxr-xr-x.  2 root root 4096 Sep 27  2011 .
+drwxr-xr-x. 98 root root 4096 Apr 13 19:54 ..
+
+
+[00;31mCrontab contents:[00m
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+HOME=/
+
+# For details see man 4 crontabs
+
+# Example of job definition:
+# .---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * user-name command to be executed
+
+0 3 * * * root /root/check_ntpdate.sh
+
+
+[00;31mAnacron jobs and associated file permissions:[00m
+-rw-r--r--. 1 root root 541 Jul 19  2011 /etc/anacrontab
+# /etc/anacrontab: configuration file for anacron
+
+# See anacron(8) and anacrontab(5) for details.
+
+SHELL=/bin/sh
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+# the maximal random delay added to the base delay of the jobs
+RANDOM_DELAY=45
+# the jobs will be started during the following hours only
+START_HOURS_RANGE=3-22
+
+#period in days   delay in minutes   job-identifier   command
+1	5	cron.daily		nice run-parts /etc/cron.daily
+7	25	cron.weekly		nice run-parts /etc/cron.weekly
+@monthly 45	cron.monthly		nice run-parts /etc/cron.monthly
+
+
+[00;31mWhen were jobs last executed (/var/spool/anacron contents):[00m
+total 20
+drwxr-xr-x.  2 root root 4096 Dec 11  2014 .
+drwxr-xr-x. 11 root root 4096 Dec 12  2014 ..
+-rw-------.  1 root root    9 Apr 13 03:29 cron.daily
+-rw-------.  1 root root    9 Mar 26 04:25 cron.monthly
+-rw-------.  1 root root    9 Apr  7 03:30 cron.weekly
+
+
+[00;33m### NETWORKING  ##########################################[00m
+[00;31mNetwork & IP info:[00m
+em1       Link encap:Ethernet  HWaddr B0:83:FE:DC:B8:6B  
+          inet addr:192.168.99.21  Bcast:192.168.99.255  Mask:255.255.255.0
+          inet6 addr: fe80::b283:feff:fedc:b86b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:6571915562 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:148137683344 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1539313864271 (1.3 TiB)  TX bytes:37332554985599 (33.9 TiB)
+          Interrupt:16 
+
+em2       Link encap:Ethernet  HWaddr B0:83:FE:DC:B8:6C  
+          inet addr:1.1.1.3  Bcast:1.1.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::b283:feff:fedc:b86c/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:295145 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:111872 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:380259064 (362.6 MiB)  TX bytes:7957823 (7.5 MiB)
+          Interrupt:17 
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:123097899 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:123097899 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:39515898730 (36.8 GiB)  TX bytes:39515898730 (36.8 GiB)
+
+
+[00;31mNameserver(s):[00m
+nameserver 202.106.0.20
+nameserver 8.8.8.8
+
+
+[00;31mDefault route:[00m
+default         bogon           0.0.0.0         UG    0      0        0 em1
+
+
+[00;31mListening TCP:[00m
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+tcp        0      0 0.0.0.0:30253               0.0.0.0:*                   LISTEN      -                   
+tcp        0      0 0.0.0.0:111                 0.0.0.0:*                   LISTEN      -                   
+tcp        0      0 0.0.0.0:80                  0.0.0.0:*                   LISTEN      6952/nginx          
+tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      -                   
+tcp        0      0 127.0.0.1:631               0.0.0.0:*                   LISTEN      -                   
+tcp        0      0 127.0.0.1:25                0.0.0.0:*                   LISTEN      -                   
+tcp        0      0 0.0.0.0:36891               0.0.0.0:*                   LISTEN      -                   
+tcp        0      0 0.0.0.0:10050               0.0.0.0:*                   LISTEN      -                   
+tcp        0      0 192.168.99.122:80           103.244.253.149:57585       ESTABLISHED 6957/nginx          
+tcp        0     20 192.168.99.21:45120         183.2.251.96:48080          ESTABLISHED 7627/./3389         
+tcp        0      0 192.168.99.122:80           218.78.128.119:60708        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.1.235:10925         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57637        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           122.96.31.11:47000          ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           112.97.194.22:24068         FIN_WAIT2   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57652        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           103.244.253.149:57582       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:23975         183.2.251.96:48080          ESTABLISHED 3199/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57593        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:56291         183.2.251.96:48080          ESTABLISHED 4642/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57568        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57620        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:54210         183.2.251.96:48080          ESTABLISHED 5695/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57558        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59154         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32317         118.193.250.186:10210       ESTABLISHED 8220/./linux        
+tcp        0      0 192.168.99.122:80           124.161.151.178:43170       ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:895           192.168.99.5:2049           ESTABLISHED -                   
+tcp        0      0 192.168.99.122:80           183.142.75.129:58402        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:17570         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:5694          183.2.251.96:48080          ESTABLISHED 4951/./007          
+tcp        0      0 192.168.99.122:80           60.25.215.63:55134          ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           14.106.122.17:3360          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57636        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           218.78.128.119:60710        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           175.7.124.61:21065          ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57626        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32229         118.193.250.186:10210       ESTABLISHED 9248/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57583        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57614        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           175.191.217.249:27157       ESTABLISHED 6959/nginx          
+tcp        0     20 192.168.99.21:7340          183.2.251.96:48080          ESTABLISHED 3123/./007          
+tcp        0      0 192.168.99.21:16781         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           220.167.245.4:52737         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57611        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:4528          183.2.251.96:48080          ESTABLISHED 3651/./007          
+tcp        0      0 192.168.99.122:80           111.164.186.220:50073       TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           111.113.180.196:51158       ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           223.104.15.244:24601        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:17706         183.2.251.96:48080          ESTABLISHED 3260/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57599        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59210         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:58071         183.2.251.96:48080          ESTABLISHED 4456/./007          
+tcp        0      0 192.168.99.21:47050         183.2.251.96:48080          ESTABLISHED 7804/./3389         
+tcp        0      0 192.168.99.21:20349         183.2.251.96:48080          ESTABLISHED 3716/./007          
+tcp        0      0 192.168.99.21:32921         118.193.250.186:10210       ESTABLISHED 4310/./linux        
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59294         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32982         118.193.250.186:10210       ESTABLISHED 9982/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57644        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57552        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57638        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:3031          183.2.251.96:48080          ESTABLISHED 4069/./007          
+tcp        0      0 192.168.99.122:80           220.167.245.4:52729         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59488         TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:32855         118.193.250.186:10210       ESTABLISHED 8721/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57589        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:16782         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57616        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:55316         183.2.251.96:48080          ESTABLISHED 4703/./007          
+tcp        0      0 192.168.99.21:53099         183.2.251.96:48080          ESTABLISHED 3974/./007          
+tcp        0      0 192.168.99.122:80           61.171.184.109:3491         ESTABLISHED 6958/nginx          
+tcp        0     20 192.168.99.21:32729         118.193.250.186:10210       ESTABLISHED 4927/./linux        
+tcp        0      0 192.168.99.21:32206         118.193.250.186:10210       ESTABLISHED 3035/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57618        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57595        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33209         118.193.250.186:10210       ESTABLISHED 7142/./linux        
+tcp        0      0 192.168.99.122:80           103.244.253.149:57593       ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           122.194.9.213:12942         ESTABLISHED 6958/nginx          
+tcp        0      1 192.168.99.122:80           182.247.81.191:9343         LAST_ACK    -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57643        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33285         118.193.250.186:10210       ESTABLISHED 4188/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57648        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           118.181.128.74:13819        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           113.116.141.198:39408       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           103.244.253.149:57574       ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57567        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           180.137.211.45:16951        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           103.244.253.149:57587       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:32026         118.193.250.186:10210       ESTABLISHED 9735/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57538        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57588        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:24533         183.2.251.96:48080          ESTABLISHED 4151/./007          
+tcp        0      0 192.168.99.122:80           180.98.163.132:11977        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59364         TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:46396         183.2.251.96:48080          ESTABLISHED 9076/./3399         
+tcp        0      0 192.168.99.122:80           223.104.94.231:50538        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:32723         118.193.250.186:10210       ESTABLISHED 4616/./linux        
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59172         TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           113.46.115.13:32914         FIN_WAIT1   -                   
+tcp        0      0 192.168.99.21:45904         183.2.251.96:48080          ESTABLISHED 7227/./3389         
+tcp        0      0 192.168.99.122:80           123.139.25.11:29935         ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:32686         118.193.250.186:10210       ESTABLISHED 4045/./linux        
+tcp        0      0 192.168.99.21:32651         118.193.250.186:10210       ESTABLISHED 3424/./linux        
+tcp        0      0 192.168.99.122:80           175.191.217.249:27081       ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:45947         183.2.251.96:48080          ESTABLISHED 8567/./3399         
+tcp        0      0 192.168.99.122:80           221.122.36.227:57613        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32044         118.193.250.186:10210       ESTABLISHED 4371/./linux        
+tcp        0      0 192.168.99.122:80           117.136.47.127:26682        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           14.106.122.17:3359          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:58972         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.19.95:28146         ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           14.106.122.17:3361          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.1.235:10920         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           59.63.248.97:58442          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33680         118.193.250.186:10210       ESTABLISHED 8288/./linux        
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59240         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59098         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.12.162:41937        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           218.78.128.119:60709        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57622        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           175.170.255.93:63893        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57561        TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           222.248.159.157:14196       FIN_WAIT1   -                   
+tcp        0      0 192.168.99.122:80           223.104.1.235:10922         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57540        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59120         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32081         118.193.250.186:10210       ESTABLISHED 9803/./linux        
+tcp        0      0 192.168.99.21:32276         118.193.250.186:10210       ESTABLISHED 7316/./linux        
+tcp        0      1 192.168.99.122:80           113.143.8.148:54093         FIN_WAIT1   -                   
+tcp        0      0 192.168.99.122:80           117.33.120.150:7227         ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:54199         183.2.251.96:48080          ESTABLISHED 5151/./007          
+tcp        0      0 192.168.99.122:80           117.33.120.150:7214         ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:32391         118.193.250.186:10210       ESTABLISHED 3815/./linux        
+tcp        0      0 192.168.99.122:80           119.36.206.95:50662         TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:44133         183.2.251.96:48080          ESTABLISHED 8043/./3389         
+tcp        0      0 192.168.99.21:46351         183.2.251.96:48080          ESTABLISHED 10286/./3399        
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59062         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:46410         183.2.251.96:48080          ESTABLISHED 7903/./3389         
+tcp        0      0 192.168.99.122:80           221.122.36.227:57545        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57598        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:4567          183.2.251.96:48080          ESTABLISHED 2875/./007          
+tcp        0      0 192.168.99.122:80           103.244.253.149:57588       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:5553          183.2.251.96:48080          ESTABLISHED 3529/./007          
+tcp        0      0 192.168.99.122:80           125.111.47.227:12841        ESTABLISHED 6957/nginx          
+tcp        0     20 192.168.99.21:51284         183.2.251.96:48080          ESTABLISHED 4810/./007          
+tcp        0      0 192.168.99.122:80           183.58.79.16:40256          ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:33727         118.193.250.186:10210       ESTABLISHED 3566/./linux        
+tcp        0      0 192.168.99.21:32758         118.193.250.186:10210       ESTABLISHED 3753/./linux        
+tcp        0      0 192.168.99.21:32172         118.193.250.186:10210       ESTABLISHED 10114/./linux       
+tcp        0      0 192.168.99.21:16792         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57631        TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:44801         183.2.251.96:48080          ESTABLISHED 9143/./3399         
+tcp        0      0 192.168.99.122:80           59.63.248.97:58447          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           113.116.141.198:49392       TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32079         118.193.250.186:10210       ESTABLISHED 7590/./linux        
+tcp        0      0 192.168.99.122:80           220.167.245.4:52728         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32314         118.193.250.186:10210       ESTABLISHED 4249/./linux        
+tcp        0      0 192.168.99.21:33896         118.193.250.186:10210       ESTABLISHED 7941/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57635        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           139.214.144.72:58468        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57645        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.14.144:51613        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           59.63.248.97:58452          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:44799         183.2.251.96:48080          ESTABLISHED 8163/./3389         
+tcp        0      0 192.168.99.122:80           115.215.32.126:45874        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:17417         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           106.114.153.99:10888        FIN_WAIT1   -                   
+tcp        0      0 192.168.99.122:80           103.244.253.149:57583       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           111.164.186.220:50072       TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57632        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33089         118.193.250.186:10210       ESTABLISHED 5070/./linux        
+tcp        0      0 192.168.99.122:80           223.104.1.235:10921         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           14.106.122.17:3356          TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           113.194.159.128:26127       FIN_WAIT1   -                   
+tcp        0      0 192.168.99.122:80           112.123.149.230:18962       ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           103.244.253.149:57575       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           112.17.243.216:37983        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:45845         183.2.251.96:48080          ESTABLISHED 10041/./3399        
+tcp        0      0 192.168.99.122:80           59.63.248.97:58445          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           192.168.99.31:38319         ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           223.104.63.246:15571        ESTABLISHED 6957/nginx          
+tcp        0      1 192.168.99.122:80           175.163.119.174:40520       FIN_WAIT1   -                   
+tcp        0      0 192.168.99.122:80           112.17.241.206:13867        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59318         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57615        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:62470         183.2.251.96:48080          ESTABLISHED 4273/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57539        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59310         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59192         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57549        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:17216         183.2.251.96:48080          ESTABLISHED 5127/./007          
+tcp        0      0 192.168.99.122:80           61.171.184.109:3516         ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57607        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:16932         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           116.27.184.86:31681         LAST_ACK    -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57623        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57557        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57569        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57579        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57577        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           218.78.128.119:60717        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59114         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57587        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59298         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           112.224.65.167:14530        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           222.211.182.190:15872       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57537        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.1.235:10924         TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           125.73.1.41:23998           FIN_WAIT1   -                   
+tcp        0     20 192.168.99.21:45840         183.2.251.96:48080          ESTABLISHED 7974/./3389         
+tcp        0      0 192.168.99.21:59717         183.2.251.96:48080          ESTABLISHED 3778/./007          
+tcp        0      0 192.168.99.122:80           111.19.90.172:4698          ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:7003          183.2.251.96:48080          ESTABLISHED 5249/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57633        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59136         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           103.244.253.149:57586       ESTABLISHED 6957/nginx          
+tcp        0     20 192.168.99.21:45946         183.2.251.96:48080          ESTABLISHED 9281/./3399         
+tcp        0      0 192.168.99.21:33470         118.193.250.186:10210       ESTABLISHED 5225/./linux        
+tcp        0      0 192.168.99.122:80           223.104.12.162:41926        TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           182.127.130.209:35427       LAST_ACK    -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57594        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33278         118.193.250.186:10210       ESTABLISHED 3504/./linux        
+tcp        0     20 192.168.99.21:45927         183.2.251.96:48080          ESTABLISHED 7447/./3389         
+tcp        0      0 192.168.99.21:45843         183.2.251.96:48080          ESTABLISHED 8411/./3399         
+tcp        0     20 192.168.99.21:44796         183.2.251.96:48080          ESTABLISHED 9944/./3399         
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59398         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.1.235:10923         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57556        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           103.244.253.149:57573       ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           112.17.241.206:13859        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32274         118.193.250.186:10210       ESTABLISHED 9666/./linux        
+tcp        0     20 192.168.99.21:33660         118.193.250.186:10210       ESTABLISHED 9047/./linux        
+tcp        0      0 192.168.99.21:32665         118.193.250.186:10210       ESTABLISHED 5485/./linux        
+tcp        0      0 192.168.99.122:80           117.136.95.22:27923         ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57559        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.13.228:1661         ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:32094         118.193.250.186:10210       ESTABLISHED 7385/./linux        
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59444         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57591        TIME_WAIT   -                   
+tcp        0     52 192.168.99.21:22            192.168.0.100:1285          ESTABLISHED -                   
+tcp        0      0 192.168.99.122:80           175.170.255.93:63905        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.15.244:24603        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.13.228:48028        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:32386         118.193.250.186:10210       ESTABLISHED 7199/./linux        
+tcp        0      0 192.168.99.122:80           59.63.248.97:58450          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           49.115.252.227:58060        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57601        TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:32297         118.193.250.186:10210       ESTABLISHED 5609/./linux        
+tcp        0     20 192.168.99.21:33469         118.193.250.186:10210       ESTABLISHED 10256/./linux       
+tcp        0      0 192.168.99.122:80           117.136.67.145:6083         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:62368         183.2.251.96:48080          ESTABLISHED 5572/./007          
+tcp        0      0 192.168.99.21:32980         118.193.250.186:10210       ESTABLISHED 8449/./linux        
+tcp        0      0 192.168.99.21:33772         118.193.250.186:10210       ESTABLISHED 3358/./linux        
+tcp        0      0 192.168.99.122:80           221.192.179.91:26163        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           61.171.184.109:3475         ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57551        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.13.228:1668         ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59328         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33387         118.193.250.186:10210       ESTABLISHED 9512/./linux        
+tcp        0      0 192.168.99.122:80           223.104.14.144:51615        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:46476         183.2.251.96:48080          ESTABLISHED 9352/./3399         
+tcp        0      0 192.168.99.122:80           119.36.206.95:50665         TIME_WAIT   -                   
+tcp        0   4471 192.168.99.122:80           113.143.8.148:54092         FIN_WAIT1   -                   
+tcp        0      0 192.168.99.122:80           171.223.104.226:16507       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           222.248.159.157:14199       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57650        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57546        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:6649          192.168.99.8:8080           TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.192.179.91:26164        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           223.104.63.246:15570        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:16381         183.2.251.96:48080          ESTABLISHED 4395/./007          
+tcp        0      0 192.168.99.21:45841         183.2.251.96:48080          ESTABLISHED 10046/./3399        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57571        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           119.36.206.95:50663         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57574        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           153.3.45.19:52134           ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:44721         183.2.251.96:48080          ESTABLISHED 8588/./3399         
+tcp        0      0 192.168.99.122:80           59.63.248.97:58448          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59416         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           222.243.203.11:62379        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           112.5.237.0:16912           ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57575        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           101.247.222.93:42288        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57560        TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:33317         118.193.250.186:10210       ESTABLISHED 8516/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57605        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           59.63.248.97:58444          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57573        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           59.63.248.97:58449          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           119.36.206.95:50666         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32272         118.193.250.186:10210       ESTABLISHED 3297/./linux        
+tcp        0      0 192.168.99.122:80           222.209.75.231:33556        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           27.186.112.22:32571         ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           111.124.77.189:41201        ESTABLISHED 6957/nginx          
+tcp        0     20 192.168.99.21:46354         183.2.251.96:48080          ESTABLISHED 7440/./3389         
+tcp        0      0 192.168.99.21:47658         183.2.251.96:48080          ESTABLISHED 8941/./3399         
+tcp        0      0 192.168.99.21:32525         118.193.250.186:10210       ESTABLISHED 4432/./linux        
+tcp        0      0 192.168.99.21:33051         118.193.250.186:10210       ESTABLISHED 9598/./linux        
+tcp        0      0 192.168.99.122:80           101.70.53.63:59485          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           218.78.128.119:60713        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57572        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33452         118.193.250.186:10210       ESTABLISHED 10324/./linux       
+tcp        0      0 192.168.99.21:45105         183.2.251.96:48080          ESTABLISHED 10218/./3399        
+tcp        0      0 192.168.99.21:51293         183.2.251.96:48080          ESTABLISHED 5448/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57562        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32837         118.193.250.186:10210       ESTABLISHED 9390/./linux        
+tcp        0      0 192.168.99.122:80           119.4.174.209:34697         ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:16934         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57604        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57570        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32543         118.193.250.186:10210       ESTABLISHED 7522/./linux        
+tcp        0      0 192.168.99.21:15650         183.2.251.96:48080          ESTABLISHED 3321/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57610        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.15.244:24600        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:16948         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           115.227.173.123:26878       ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           112.17.241.206:13873        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:56912         183.2.251.96:48080          ESTABLISHED 4498/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57603        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:45123         183.2.251.96:48080          ESTABLISHED 9628/./3399         
+tcp        0      0 192.168.99.21:33375         118.193.250.186:10210       ESTABLISHED 8654/./linux        
+tcp        0      0 192.168.99.122:80           117.136.50.62:43992         ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           59.63.248.97:58443          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           14.106.122.17:3357          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57553        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59176         TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:21779         183.2.251.96:48080          ESTABLISHED 3387/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57621        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:62589         183.2.251.96:48080          ESTABLISHED 3467/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57544        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57578        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:13271         183.2.251.96:48080          ESTABLISHED 5387/./007          
+tcp        0      0 192.168.99.122:80           223.104.12.162:41935        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           115.191.26.159:37721        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:18090         183.2.251.96:48080          ESTABLISHED 5756/./007          
+tcp        0      0 192.168.99.122:80           223.104.13.228:4867         ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57617        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:9457          183.2.251.96:48080          ESTABLISHED 2917/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57565        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           183.207.217.80:22805        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:33664         118.193.250.186:10210       ESTABLISHED 5854/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57608        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:46355         183.2.251.96:48080          ESTABLISHED 7552/./3389         
+tcp        0      0 192.168.99.21:894           192.168.99.2:2049           ESTABLISHED -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57547        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57548        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33425         118.193.250.186:10210       ESTABLISHED 7860/./linux        
+tcp        0      0 192.168.99.21:32851         118.193.250.186:10210       ESTABLISHED 2973/./linux        
+tcp        0      0 192.168.99.122:80           59.63.248.97:58451          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59270         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:51521         183.2.251.96:48080          ESTABLISHED 5634/./007          
+tcp        0      0 192.168.99.21:35272         118.193.250.186:10210       ESTABLISHED 5548/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57596        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           14.106.122.17:3365          TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           1.63.194.55:59039           FIN_WAIT1   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57654        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57554        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59090         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32632         118.193.250.186:10210       ESTABLISHED 3161/./linux        
+tcp        0      0 192.168.99.21:8162          137.59.149.225:8090         ESTABLISHED -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57592        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57576        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57641        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.15.244:24602        TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:44602         183.2.251.96:48080          ESTABLISHED 8478/./3399         
+tcp        0      0 192.168.99.21:22            192.168.0.100:3455          ESTABLISHED -                   
+tcp        0      0 192.168.99.122:80           223.104.188.168:39636       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57580        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           60.24.188.22:30173          ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:32116         118.193.250.186:10210       ESTABLISHED 7665/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57619        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:2690          183.2.251.96:48080          ESTABLISHED 4578/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57582        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:44502         183.2.251.96:48080          ESTABLISHED 7786/./3389         
+tcp        0     18 192.168.99.21:32443         118.193.250.186:10210       ESTABLISHED 3096/./linux        
+tcp        0     20 192.168.99.21:44524         183.2.251.96:48080          ESTABLISHED 9009/./3399         
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59034         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33653         118.193.250.186:10210       ESTABLISHED 9181/./linux        
+tcp        0     20 192.168.99.21:44304         183.2.251.96:48080          ESTABLISHED 9471/./3399         
+tcp        0      0 192.168.99.122:80           221.122.36.227:57584        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32643         118.193.250.186:10210       ESTABLISHED 8081/./linux        
+tcp        0      0 192.168.99.122:80           223.104.6.51:42986          FIN_WAIT2   -                   
+tcp        0      0 192.168.99.21:46305         183.2.251.96:48080          ESTABLISHED 9210/./3399         
+tcp        0      0 192.168.99.122:80           111.14.98.201:4083          ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           220.167.245.4:52724         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57541        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.15.244:24599        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57585        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           101.248.115.20:50391        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:27081         222.186.59.131:1020         ESTABLISHED 5424/./linux        
+tcp        0      0 192.168.99.21:12673         183.2.251.96:48080          ESTABLISHED 4334/./007          
+tcp        0      0 192.168.99.21:33219         118.193.250.186:10210       ESTABLISHED 4988/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57581        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33799         118.193.250.186:10210       ESTABLISHED 4106/./linux        
+tcp        0      0 192.168.99.122:80           125.111.47.227:12840        FIN_WAIT2   -                   
+tcp        0      0 192.168.99.21:33757         118.193.250.186:10210       ESTABLISHED 3627/./linux        
+tcp        0     20 192.168.99.21:33515         118.193.250.186:10210       ESTABLISHED 10122/./linux       
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59388         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           117.136.86.2:17168          ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           14.106.122.17:3358          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33689         118.193.250.186:10210       ESTABLISHED 5732/./linux        
+tcp        0     20 192.168.99.21:32420         118.193.250.186:10210       ESTABLISHED 9531/./linux        
+tcp        0      0 192.168.99.21:13014         183.2.251.96:48080          ESTABLISHED 5817/./007          
+tcp        0     20 192.168.99.21:63259         118.193.250.186:10210       ESTABLISHED 7873/./linux        
+tcp        0      0 192.168.99.122:80           112.26.237.62:40782         ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57651        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:31954         118.193.250.186:10210       ESTABLISHED 4535/./linux        
+tcp        0      1 192.168.99.122:80           117.176.255.233:17936       FIN_WAIT1   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59144         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57542        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           111.113.180.196:51162       ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           116.227.99.90:43762         ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:15661         183.2.251.96:48080          ESTABLISHED 5033/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57630        TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:49516         183.2.251.96:48080          ESTABLISHED 3059/./007          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57555        TIME_WAIT   -                   
+tcp        0      1 192.168.99.122:80           116.27.184.86:31678         LAST_ACK    -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57649        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           218.78.128.119:60712        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.14.144:51614        ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.122:80           218.78.128.119:60719        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:62644         183.2.251.96:48080          ESTABLISHED 4768/./007          
+tcp        0      0 192.168.99.122:80           115.191.26.159:48040        ESTABLISHED 6958/nginx          
+tcp        0     20 192.168.99.21:45902         183.2.251.96:48080          ESTABLISHED 7278/./3389         
+tcp        0      0 192.168.99.122:80           221.122.36.227:57564        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           218.78.128.119:60718        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           218.78.128.119:60711        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57646        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:31899         118.193.250.186:10210       ESTABLISHED 4740/./linux        
+tcp        0      0 192.168.99.21:33858         118.193.250.186:10210       ESTABLISHED 4866/./linux        
+tcp        0      0 1.1.1.3:45403               1.1.1.2:22                  ESTABLISHED -                   
+tcp        0      0 192.168.99.122:10050        192.168.0.112:49046         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           61.171.184.109:3476         ESTABLISHED 6958/nginx          
+tcp        0     20 192.168.99.21:45119         183.2.251.96:48080          ESTABLISHED 9444/./3399         
+tcp        0      0 192.168.99.122:80           218.78.128.119:60716        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59334         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:1107          183.2.251.96:48080          ESTABLISHED 4890/./007          
+tcp        0     20 192.168.99.21:48356         183.2.251.96:48080          ESTABLISHED 7347/./3389         
+tcp        0      0 192.168.99.122:80           175.170.255.93:63915        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59246         TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:60003         183.2.251.96:48080          ESTABLISHED 2998/./007          
+tcp        0      0 192.168.99.21:33235         118.193.250.186:10210       ESTABLISHED 4554/./linux        
+tcp        0      0 192.168.99.122:80           183.246.72.211:19105        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           113.65.192.16:6346          ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57543        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           117.136.8.71:11730          ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           123.175.164.170:56909       ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:33458         118.193.250.186:10210       ESTABLISHED 5188/./linux        
+tcp        0      0 192.168.99.122:80           117.136.44.192:20574        ESTABLISHED 6957/nginx          
+tcp        0     20 192.168.99.21:33525         118.193.250.186:10210       ESTABLISHED 7105/./linux        
+tcp        0      0 192.168.99.21:30585         118.193.250.186:10210       ESTABLISHED 8979/./linux        
+tcp        0     20 192.168.99.21:33775         118.193.250.186:10210       ESTABLISHED 3236/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57550        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33683         118.193.250.186:10210       ESTABLISHED 3688/./linux        
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59470         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.12.162:41939        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33236         118.193.250.186:10210       ESTABLISHED 5424/./linux        
+tcp        0      0 192.168.99.21:33737         118.193.250.186:10210       ESTABLISHED 4849/./linux        
+tcp        0      0 192.168.99.122:80           119.36.206.95:50664         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:44797         183.2.251.96:48080          ESTABLISHED 10151/./3399        
+tcp        0      0 192.168.99.122:80           61.171.184.109:3492         ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59454         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:44765         183.2.251.96:48080          ESTABLISHED 9697/./3399         
+tcp        0      0 192.168.99.122:80           101.229.29.77:55684         ESTABLISHED 6958/nginx          
+tcp        0      0 192.168.99.21:45847         183.2.251.96:48080          ESTABLISHED 8250/./3389         
+tcp        0      0 192.168.99.21:44130         183.2.251.96:48080          ESTABLISHED 8117/./3389         
+tcp        0      0 192.168.99.21:33190         118.193.250.186:10210       ESTABLISHED 2954/./linux        
+tcp        0      0 192.168.99.21:18218         192.168.99.21:7080          ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57627        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           121.227.136.147:21248       ESTABLISHED 6958/nginx          
+tcp        0     20 192.168.99.21:32363         118.193.250.186:10210       ESTABLISHED 3443/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57624        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33681         118.193.250.186:10210       ESTABLISHED 5793/./linux        
+tcp        0      0 192.168.99.122:80           223.104.63.246:15569        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           14.106.122.17:3355          TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:46397         183.2.251.96:48080          ESTABLISHED 7696/./3389         
+tcp        0      0 192.168.99.122:80           221.122.36.227:57653        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           218.78.128.119:60720        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           1.204.2.217:26573           ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:46395         183.2.251.96:48080          ESTABLISHED 9765/./3399         
+tcp        0     20 192.168.99.21:32861         118.193.250.186:10210       ESTABLISHED 9319/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57606        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59202         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           220.167.245.4:52725         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:33405         118.193.250.186:10210       ESTABLISHED 8012/./linux        
+tcp        0      0 192.168.99.122:80           171.42.20.162:57137         ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57609        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32825         118.193.250.186:10210       ESTABLISHED 9120/./linux        
+tcp        0      0 192.168.99.122:80           1.204.192.41:26921          TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57590        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57612        TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:46270         183.2.251.96:48080          ESTABLISHED 8683/./3399         
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59344         TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32049         118.193.250.186:10210       ESTABLISHED 7735/./linux        
+tcp        0      0 192.168.99.122:80           59.63.248.97:58446          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32421         118.193.250.186:10210       ESTABLISHED 4679/./linux        
+tcp        0      0 192.168.99.21:17025         192.168.99.21:7080          TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:23507         183.2.251.96:48080          ESTABLISHED 4212/./007          
+tcp        0      0 192.168.99.122:80           113.118.227.20:20337        ESTABLISHED 6959/nginx          
+tcp        0     20 192.168.99.21:33531         118.193.250.186:10210       ESTABLISHED 10189/./linux       
+tcp        0      0 192.168.99.122:80           221.122.36.227:57642        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57639        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:32353         118.193.250.186:10210       ESTABLISHED 9913/./linux        
+tcp        0      0 192.168.99.122:80           221.122.36.227:57629        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57597        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57640        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57600        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           203.93.164.196:13096        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.122:80           58.205.211.148:47844        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.122:80           221.122.36.227:57566        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59224         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57647        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57634        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57586        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57602        TIME_WAIT   -                   
+tcp        0     20 192.168.99.21:44527         183.2.251.96:48080          ESTABLISHED 9875/./3399         
+tcp        0      0 192.168.99.21:44305         183.2.251.96:48080          ESTABLISHED 9560/./3399         
+tcp        0      0 192.168.99.122:80           221.122.36.227:57563        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57625        TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           223.104.27.6:48657          ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:32879         118.193.250.186:10210       ESTABLISHED 4038/./linux        
+tcp        0      0 192.168.99.122:80           115.149.122.71:47967        ESTABLISHED 6959/nginx          
+tcp        0      0 192.168.99.21:33599         118.193.250.186:10210       ESTABLISHED 8635/./linux        
+tcp        0      0 192.168.99.122:80           220.167.245.4:52730         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           117.136.80.12:8062          ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:33758         118.193.250.186:10210       ESTABLISHED 10391/./linux       
+tcp        0     20 192.168.99.21:31684         118.193.250.186:10210       ESTABLISHED 7515/./linux        
+tcp        0      0 192.168.99.122:80           182.240.92.157:15941        ESTABLISHED 6957/nginx          
+tcp        0      0 192.168.99.21:33292         118.193.250.186:10210       ESTABLISHED 5286/./linux        
+tcp        0      0 192.168.99.21:10050         192.168.0.112:59376         TIME_WAIT   -                   
+tcp        0      0 192.168.99.122:80           221.122.36.227:57628        TIME_WAIT   -                   
+tcp        0      0 192.168.99.21:11828         183.2.251.96:48080          ESTABLISHED 5511/./007          
+tcp        0      0 :::31659                    :::*                        LISTEN      35151/java          
+tcp        0      0 :::111                      :::*                        LISTEN      -                   
+tcp        0      0 :::8080                     :::*                        LISTEN      36249/java          
+tcp        0      0 :::8209                     :::*                        LISTEN      36249/java          
+tcp        0      0 :::30481                    :::*                        LISTEN      -                   
+tcp        0      0 :::6962                     :::*                        LISTEN      35151/java          
+tcp        0      0 :::61363                    :::*                        LISTEN      36249/java          
+tcp        0      0 :::22                       :::*                        LISTEN      -                   
+tcp        0      0 ::1:631                     :::*                        LISTEN      -                   
+tcp        0      0 ::1:25                      :::*                        LISTEN      -                   
+tcp        0      0 ::ffff:127.0.0.1:8605       :::*                        LISTEN      36249/java          
+tcp        0      0 :::7101                     :::*                        LISTEN      36249/java          
+tcp        0      0 :::7709                     :::*                        LISTEN      35151/java          
+tcp        0      0 ::ffff:127.0.0.1:8705       :::*                        LISTEN      35151/java          
+tcp        0      0 :::22178                    :::*                        LISTEN      36249/java          
+tcp        0      0 :::46373                    :::*                        LISTEN      -                   
+tcp        0      0 :::7080                     :::*                        LISTEN      35151/java          
+tcp        0      0 :::37001                    :::*                        LISTEN      35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17177  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:39370  ::ffff:192.168.99.9:12000   ESTABLISHED 36249/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:7391   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:50822  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7772   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:63087  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:22133  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:47483  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:7329   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:7719   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17363  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:35194  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17066  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17211  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:8457   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:17737  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:45851  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:7776   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:63089  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:7969   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:8229   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:17751  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:35200  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7943   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:8113   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:35199  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:18218  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17045  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:22146  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7789   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:2435   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:36928  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:39371  ::ffff:192.168.99.9:12000   ESTABLISHED 36249/java          
+tcp        0      0 ::ffff:192.168.99.21:40273  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:7925   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:37738  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:47484  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:35195  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:35511  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17352  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:42634  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17182  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17583  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:61286  ::ffff:192.168.99.2:9080    TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:8182   ::ffff:192.168.99.6:80      ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:49478  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:35513  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:47482  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17569  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17572  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:40272  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:35202  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:2440   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:37735  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:2434   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:22132  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:16642  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:2441   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7597   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:8403   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:47485  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:35510  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:20749  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17179  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:16657  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:25636  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:42632  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:2443   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:47486  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:63088  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:54979  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:2433   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:16811  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:48828  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:54606  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:17752  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7960   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:8416   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:22134  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:2444   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7584   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:50279  ::ffff:192.168.99.9:12000   ESTABLISHED 36249/java          
+tcp        0      0 ::ffff:192.168.99.21:7767   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:60912  ::ffff:192.168.99.2:9080    TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:9311   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17007  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:5098   ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:16994  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:8160   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:7941   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:34053  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:60697  ::ffff:192.168.99.2:9080    TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:25635  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17366  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:35512  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:54976  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:15217  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:39373  ::ffff:192.168.99.9:12000   ESTABLISHED 36249/java          
+tcp        0      0 ::ffff:192.168.99.21:11538  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17367  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7957   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:43637  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:11537  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:22135  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:16993  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:35509  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:8910   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:15029  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:39372  ::ffff:192.168.99.9:12000   ESTABLISHED 36249/java          
+tcp        0      0 ::ffff:192.168.99.21:54603  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:7693   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:35193  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:54975  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:35198  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:56122  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:42633  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:3791   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:34052  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:19425  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17391  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:39368  ::ffff:192.168.99.9:12000   ESTABLISHED 36249/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17585  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:39758  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7953   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:37737  ::ffff:192.168.99.16:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:13097  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:39759  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:22131  ::ffff:192.168.99.17:12000  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:2439   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:49477  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:35203  ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:17209  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:16696  TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:7080   ::ffff:192.168.99.21:8846   TIME_WAIT   -                   
+tcp        0      0 ::ffff:192.168.99.21:2438   ::ffff:192.168.99.120:3306  ESTABLISHED 35151/java          
+tcp        0      0 ::ffff:192.168.99.21:7599   ::ffff:192.168.99.6:80      TIME_WAIT   -                   
+
+
+[00;31mListening UDP:[00m
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address               Foreign Address             State       PID/Program name   
+udp        0      0 0.0.0.0:878                 0.0.0.0:*                               -                   
+udp        0      0 0.0.0.0:111                 0.0.0.0:*                               -                   
+udp        0      0 0.0.0.0:631                 0.0.0.0:*                               -                   
+udp        0      0 0.0.0.0:46755               0.0.0.0:*                               -                   
+udp        0      0 127.0.0.1:935               0.0.0.0:*                               -                   
+udp        0      0 0.0.0.0:12214               0.0.0.0:*                               -                   
+udp        0      0 :::878                      :::*                                    -                   
+udp        0      0 :::111                      :::*                                    -                   
+udp        0      0 :::35936                    :::*                                    -                   
+udp        0      0 :::23139                    :::*                                    -                   
+
+
+[00;33m### SERVICES #############################################[00m
+[00;31mRunning processes:[00m
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0  19232  1336 ?        Ss    2016   0:27 /sbin/init
+root         2  0.0  0.0      0     0 ?        S     2016   0:00 [kthreadd]
+root         3  0.0  0.0      0     0 ?        S     2016   0:22 [migration/0]
+root         4  0.1  0.0      0     0 ?        S     2016 189:21 [ksoftirqd/0]
+root         5  0.0  0.0      0     0 ?        S     2016   0:00 [migration/0]
+root         6  0.0  0.0      0     0 ?        S     2016   0:22 [watchdog/0]
+root         7  0.0  0.0      0     0 ?        S     2016   0:00 [migration/1]
+root         8  0.0  0.0      0     0 ?        S     2016   0:00 [migration/1]
+root         9  0.0  0.0      0     0 ?        S     2016  20:50 [ksoftirqd/1]
+root        10  0.0  0.0      0     0 ?        S     2016   0:07 [watchdog/1]
+root        11  0.0  0.0      0     0 ?        S     2016   0:00 [migration/2]
+root        12  0.0  0.0      0     0 ?        S     2016   0:00 [migration/2]
+root        13  0.0  0.0      0     0 ?        S     2016  30:10 [ksoftirqd/2]
+root        14  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/2]
+root        15  0.0  0.0      0     0 ?        S     2016   0:00 [migration/3]
+root        16  0.0  0.0      0     0 ?        S     2016   0:00 [migration/3]
+root        17  0.0  0.0      0     0 ?        S     2016  23:22 [ksoftirqd/3]
+root        18  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/3]
+root        19  0.0  0.0      0     0 ?        S     2016   0:00 [migration/4]
+root        20  0.0  0.0      0     0 ?        S     2016   0:00 [migration/4]
+root        21  0.0  0.0      0     0 ?        S     2016  29:56 [ksoftirqd/4]
+root        22  0.0  0.0      0     0 ?        S     2016   0:03 [watchdog/4]
+root        23  0.0  0.0      0     0 ?        S     2016   0:00 [migration/5]
+root        24  0.0  0.0      0     0 ?        S     2016   0:00 [migration/5]
+root        25  0.0  0.0      0     0 ?        S     2016  31:15 [ksoftirqd/5]
+root        26  0.0  0.0      0     0 ?        S     2016   0:03 [watchdog/5]
+root        27  0.0  0.0      0     0 ?        S     2016   0:00 [migration/6]
+root        28  0.0  0.0      0     0 ?        S     2016   0:00 [migration/6]
+root        29  0.0  0.0      0     0 ?        S     2016  13:11 [ksoftirqd/6]
+root        30  0.0  0.0      0     0 ?        S     2016   0:03 [watchdog/6]
+root        31  0.0  0.0      0     0 ?        S     2016   0:00 [migration/7]
+root        32  0.0  0.0      0     0 ?        S     2016   0:00 [migration/7]
+root        33  0.0  0.0      0     0 ?        S     2016  34:59 [ksoftirqd/7]
+root        34  0.0  0.0      0     0 ?        S     2016   0:03 [watchdog/7]
+root        35  0.0  0.0      0     0 ?        S     2016   0:00 [migration/8]
+root        36  0.0  0.0      0     0 ?        S     2016   0:00 [migration/8]
+root        37  0.0  0.0      0     0 ?        S     2016  32:35 [ksoftirqd/8]
+root        38  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/8]
+root        39  0.0  0.0      0     0 ?        S     2016   0:00 [migration/9]
+root        40  0.0  0.0      0     0 ?        S     2016   0:00 [migration/9]
+root        41  0.0  0.0      0     0 ?        S     2016  23:44 [ksoftirqd/9]
+root        42  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/9]
+root        43  0.0  0.0      0     0 ?        S     2016   0:00 [migration/10]
+root        44  0.0  0.0      0     0 ?        S     2016   0:00 [migration/10]
+root        45  0.0  0.0      0     0 ?        S     2016  41:39 [ksoftirqd/10]
+root        46  0.0  0.0      0     0 ?        S     2016   0:21 [watchdog/10]
+root        47  0.0  0.0      0     0 ?        S     2016   0:18 [migration/11]
+root        48  0.0  0.0      0     0 ?        S     2016   0:00 [migration/11]
+root        49  0.0  0.0      0     0 ?        S     2016  22:45 [ksoftirqd/11]
+root        50  0.0  0.0      0     0 ?        S     2016   0:09 [watchdog/11]
+root        51  0.0  0.0      0     0 ?        S     2016   0:12 [migration/12]
+root        52  0.0  0.0      0     0 ?        S     2016   0:00 [migration/12]
+root        53  0.0  0.0      0     0 ?        S     2016 101:50 [ksoftirqd/12]
+root        54  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/12]
+root        55  0.0  0.0      0     0 ?        S     2016   0:09 [migration/13]
+root        56  0.0  0.0      0     0 ?        S     2016   0:00 [migration/13]
+root        57  0.0  0.0      0     0 ?        S     2016  92:10 [ksoftirqd/13]
+root        58  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/13]
+root        59  0.0  0.0      0     0 ?        S     2016   0:10 [migration/14]
+root        60  0.0  0.0      0     0 ?        S     2016   0:00 [migration/14]
+root        61  0.0  0.0      0     0 ?        S     2016  99:59 [ksoftirqd/14]
+root        62  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/14]
+root        63  0.0  0.0      0     0 ?        S     2016   0:07 [migration/15]
+root        64  0.0  0.0      0     0 ?        S     2016   0:00 [migration/15]
+root        65  0.0  0.0      0     0 ?        S     2016 108:53 [ksoftirqd/15]
+root        66  0.0  0.0      0     0 ?        S     2016   0:05 [watchdog/15]
+root        67  0.0  0.0      0     0 ?        S     2016   0:03 [migration/16]
+root        68  0.0  0.0      0     0 ?        S     2016   0:00 [migration/16]
+root        69  0.0  0.0      0     0 ?        S     2016  50:11 [ksoftirqd/16]
+root        70  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/16]
+root        71  0.0  0.0      0     0 ?        S     2016   0:00 [migration/17]
+root        72  0.0  0.0      0     0 ?        S     2016   0:00 [migration/17]
+root        73  0.0  0.0      0     0 ?        S     2016  33:00 [ksoftirqd/17]
+root        74  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/17]
+root        75  0.0  0.0      0     0 ?        S     2016   0:00 [migration/18]
+root        76  0.0  0.0      0     0 ?        S     2016   0:00 [migration/18]
+root        77  0.0  0.0      0     0 ?        S     2016  29:30 [ksoftirqd/18]
+root        78  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/18]
+root        79  0.0  0.0      0     0 ?        S     2016   0:00 [migration/19]
+root        80  0.0  0.0      0     0 ?        S     2016   0:00 [migration/19]
+root        81  0.0  0.0      0     0 ?        S     2016  40:30 [ksoftirqd/19]
+root        82  0.0  0.0      0     0 ?        S     2016   0:04 [watchdog/19]
+root        83  0.0  0.0      0     0 ?        S     2016   9:39 [events/0]
+root        84  0.0  0.0      0     0 ?        S     2016   3:25 [events/1]
+root        85  0.0  0.0      0     0 ?        S     2016   3:11 [events/2]
+root        86  0.0  0.0      0     0 ?        S     2016   2:59 [events/3]
+root        87  0.0  0.0      0     0 ?        S     2016   2:49 [events/4]
+root        88  0.0  0.0      0     0 ?        S     2016   2:41 [events/5]
+root        89  0.0  0.0      0     0 ?        S     2016   2:44 [events/6]
+root        90  0.0  0.0      0     0 ?        S     2016   2:49 [events/7]
+root        91  0.0  0.0      0     0 ?        S     2016   2:40 [events/8]
+root        92  0.0  0.0      0     0 ?        S     2016   2:41 [events/9]
+root        93  0.0  0.0      0     0 ?        S     2016   4:15 [events/10]
+root        94  0.0  0.0      0     0 ?        S     2016   3:04 [events/11]
+root        95  0.0  0.0      0     0 ?        S     2016   6:21 [events/12]
+root        96  0.0  0.0      0     0 ?        S     2016   2:54 [events/13]
+root        97  0.0  0.0      0     0 ?        S     2016   2:44 [events/14]
+root        98  0.0  0.0      0     0 ?        S     2016   2:52 [events/15]
+root        99  0.0  0.0      0     0 ?        S     2016   2:41 [events/16]
+root       100  0.0  0.0      0     0 ?        S     2016   2:36 [events/17]
+root       101  0.0  0.0      0     0 ?        S     2016   2:45 [events/18]
+root       102  0.0  0.0      0     0 ?        S     2016   3:08 [events/19]
+root       103  0.0  0.0      0     0 ?        S     2016   0:00 [cgroup]
+root       104  0.0  0.0      0     0 ?        S     2016   0:00 [khelper]
+root       105  0.0  0.0      0     0 ?        S     2016   0:00 [netns]
+root       106  0.0  0.0      0     0 ?        S     2016   0:00 [async/mgr]
+root       107  0.0  0.0      0     0 ?        S     2016   0:00 [pm]
+root       108  0.0  0.0      0     0 ?        S     2016   0:26 [sync_supers]
+root       109  0.0  0.0      0     0 ?        S     2016   0:23 [bdi-default]
+root       110  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/0]
+root       111  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/1]
+root       112  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/2]
+root       113  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/3]
+root       114  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/4]
+root       115  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/5]
+root       116  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/6]
+root       117  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/7]
+root       118  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/8]
+root       119  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/9]
+root       120  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/10]
+root       121  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/11]
+root       122  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/12]
+root       123  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/13]
+root       124  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/14]
+root       125  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/15]
+root       126  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/16]
+root       127  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/17]
+root       128  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/18]
+root       129  0.0  0.0      0     0 ?        S     2016   0:00 [kintegrityd/19]
+root       130  0.0  0.0      0     0 ?        S     2016   1:52 [kblockd/0]
+root       131  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/1]
+root       132  0.0  0.0      0     0 ?        S     2016   0:02 [kblockd/2]
+root       133  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/3]
+root       134  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/4]
+root       135  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/5]
+root       136  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/6]
+root       137  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/7]
+root       138  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/8]
+root       139  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/9]
+root       140  0.0  0.0      0     0 ?        S     2016   0:06 [kblockd/10]
+root       141  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/11]
+root       142  0.0  0.0      0     0 ?        S     2016   0:02 [kblockd/12]
+root       143  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/13]
+root       144  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/14]
+root       145  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/15]
+root       146  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/16]
+root       147  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/17]
+root       148  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/18]
+root       149  0.0  0.0      0     0 ?        S     2016   0:00 [kblockd/19]
+root       150  0.0  0.0      0     0 ?        S     2016   0:00 [kacpid]
+root       151  0.0  0.0      0     0 ?        S     2016   0:00 [kacpi_notify]
+root       152  0.0  0.0      0     0 ?        S     2016   0:00 [kacpi_hotplug]
+root       153  0.0  0.0      0     0 ?        S     2016   0:00 [ata/0]
+root       154  0.0  0.0      0     0 ?        S     2016   0:00 [ata/1]
+root       155  0.0  0.0      0     0 ?        S     2016   0:00 [ata/2]
+root       156  0.0  0.0      0     0 ?        S     2016   0:00 [ata/3]
+root       157  0.0  0.0      0     0 ?        S     2016   0:00 [ata/4]
+root       158  0.0  0.0      0     0 ?        S     2016   0:00 [ata/5]
+root       159  0.0  0.0      0     0 ?        S     2016   0:00 [ata/6]
+root       160  0.0  0.0      0     0 ?        S     2016   0:00 [ata/7]
+root       161  0.0  0.0      0     0 ?        S     2016   0:00 [ata/8]
+root       162  0.0  0.0      0     0 ?        S     2016   0:00 [ata/9]
+root       163  0.0  0.0      0     0 ?        S     2016   0:00 [ata/10]
+root       164  0.0  0.0      0     0 ?        S     2016   0:00 [ata/11]
+root       165  0.0  0.0      0     0 ?        S     2016   0:00 [ata/12]
+root       166  0.0  0.0      0     0 ?        S     2016   0:00 [ata/13]
+root       167  0.0  0.0      0     0 ?        S     2016   0:00 [ata/14]
+root       168  0.0  0.0      0     0 ?        S     2016   0:00 [ata/15]
+root       169  0.0  0.0      0     0 ?        S     2016   0:00 [ata/16]
+root       170  0.0  0.0      0     0 ?        S     2016   0:00 [ata/17]
+root       171  0.0  0.0      0     0 ?        S     2016   0:00 [ata/18]
+root       172  0.0  0.0      0     0 ?        S     2016   0:00 [ata/19]
+root       173  0.0  0.0      0     0 ?        S     2016   0:00 [ata_aux]
+root       174  0.0  0.0      0     0 ?        S     2016   0:00 [ksuspend_usbd]
+root       175  0.0  0.0      0     0 ?        S     2016   0:00 [khubd]
+root       176  0.0  0.0      0     0 ?        S     2016   0:00 [kseriod]
+root       177  0.0  0.0      0     0 ?        S     2016   0:00 [md/0]
+root       178  0.0  0.0      0     0 ?        S     2016   0:00 [md/1]
+root       179  0.0  0.0      0     0 ?        S     2016   0:00 [md/2]
+root       180  0.0  0.0      0     0 ?        S     2016   0:00 [md/3]
+root       181  0.0  0.0      0     0 ?        S     2016   0:00 [md/4]
+root       182  0.0  0.0      0     0 ?        S     2016   0:00 [md/5]
+root       183  0.0  0.0      0     0 ?        S     2016   0:00 [md/6]
+root       184  0.0  0.0      0     0 ?        S     2016   0:00 [md/7]
+root       185  0.0  0.0      0     0 ?        S     2016   0:00 [md/8]
+root       186  0.0  0.0      0     0 ?        S     2016   0:00 [md/9]
+root       187  0.0  0.0      0     0 ?        S     2016   0:00 [md/10]
+root       188  0.0  0.0      0     0 ?        S     2016   0:00 [md/11]
+root       189  0.0  0.0      0     0 ?        S     2016   0:00 [md/12]
+root       190  0.0  0.0      0     0 ?        S     2016   0:00 [md/13]
+root       191  0.0  0.0      0     0 ?        S     2016   0:00 [md/14]
+root       192  0.0  0.0      0     0 ?        S     2016   0:00 [md/15]
+root       193  0.0  0.0      0     0 ?        S     2016   0:00 [md/16]
+root       194  0.0  0.0      0     0 ?        S     2016   0:00 [md/17]
+root       195  0.0  0.0      0     0 ?        S     2016   0:00 [md/18]
+root       196  0.0  0.0      0     0 ?        S     2016   0:00 [md/19]
+root       197  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/0]
+root       198  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/1]
+root       199  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/2]
+root       200  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/3]
+root       201  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/4]
+root       202  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/5]
+root       203  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/6]
+root       204  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/7]
+root       205  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/8]
+root       206  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/9]
+root       207  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/10]
+root       208  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/11]
+root       209  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/12]
+root       210  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/13]
+root       211  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/14]
+root       212  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/15]
+root       213  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/16]
+root       214  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/17]
+root       215  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/18]
+root       216  0.0  0.0      0     0 ?        S     2016   0:00 [md_misc/19]
+root       217  0.0  0.0      0     0 ?        S     2016   0:06 [khungtaskd]
+root       218  0.0  0.0      0     0 ?        S     2016   0:12 [kswapd0]
+root       219  0.0  0.0      0     0 ?        SN    2016   0:00 [ksmd]
+root       220  0.0  0.0      0     0 ?        SN    2016   0:23 [khugepaged]
+root       221  0.0  0.0      0     0 ?        S     2016   0:00 [aio/0]
+root       222  0.0  0.0      0     0 ?        S     2016   0:00 [aio/1]
+root       223  0.0  0.0      0     0 ?        S     2016   0:00 [aio/2]
+root       224  0.0  0.0      0     0 ?        S     2016   0:00 [aio/3]
+root       225  0.0  0.0      0     0 ?        S     2016   0:00 [aio/4]
+root       226  0.0  0.0      0     0 ?        S     2016   0:00 [aio/5]
+root       227  0.0  0.0      0     0 ?        S     2016   0:00 [aio/6]
+root       228  0.0  0.0      0     0 ?        S     2016   0:00 [aio/7]
+root       229  0.0  0.0      0     0 ?        S     2016   0:00 [aio/8]
+root       230  0.0  0.0      0     0 ?        S     2016   0:00 [aio/9]
+root       231  0.0  0.0      0     0 ?        S     2016   0:00 [aio/10]
+root       232  0.0  0.0      0     0 ?        S     2016   0:00 [aio/11]
+root       233  0.0  0.0      0     0 ?        S     2016   0:00 [aio/12]
+root       234  0.0  0.0      0     0 ?        S     2016   0:00 [aio/13]
+root       235  0.0  0.0      0     0 ?        S     2016   0:00 [aio/14]
+root       236  0.0  0.0      0     0 ?        S     2016   0:00 [aio/15]
+root       237  0.0  0.0      0     0 ?        S     2016   0:00 [aio/16]
+root       238  0.0  0.0      0     0 ?        S     2016   0:00 [aio/17]
+root       239  0.0  0.0      0     0 ?        S     2016   0:00 [aio/18]
+root       240  0.0  0.0      0     0 ?        S     2016   0:00 [aio/19]
+root       241  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/0]
+root       242  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/1]
+root       243  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/2]
+root       244  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/3]
+root       245  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/4]
+root       246  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/5]
+root       247  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/6]
+root       248  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/7]
+root       249  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/8]
+root       250  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/9]
+root       251  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/10]
+root       252  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/11]
+root       253  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/12]
+root       254  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/13]
+root       255  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/14]
+root       256  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/15]
+root       257  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/16]
+root       258  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/17]
+root       259  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/18]
+root       260  0.0  0.0      0     0 ?        S     2016   0:00 [crypto/19]
+root       265  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/0]
+root       266  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/1]
+root       267  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/2]
+root       268  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/3]
+root       269  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/4]
+root       270  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/5]
+root       271  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/6]
+root       272  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/7]
+root       273  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/8]
+root       274  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/9]
+root       275  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/10]
+root       276  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/11]
+root       277  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/12]
+root       278  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/13]
+root       279  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/14]
+root       280  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/15]
+root       281  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/16]
+root       282  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/17]
+root       283  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/18]
+root       284  0.0  0.0      0     0 ?        S     2016   0:00 [kthrotld/19]
+root       298  0.0  0.0      0     0 ?        S     2016   0:00 [kpsmoused]
+root       299  0.0  0.0      0     0 ?        S     2016   0:00 [usbhid_resumer]
+root       330  0.0  0.0      0     0 ?        S     2016   0:00 [kstriped]
+root       501  0.0  0.0      0     0 ?        S     2016   0:00 [scsi_eh_0]
+root       546  0.0  0.0      0     0 ?        S     2016   0:00 [scsi_eh_1]
+root       547  0.0  0.0      0     0 ?        S     2016   0:00 [scsi_eh_2]
+root       548  0.0  0.0      0     0 ?        S     2016   0:00 [scsi_eh_3]
+root       549  0.0  0.0      0     0 ?        S     2016   0:00 [scsi_eh_4]
+root       550  0.0  0.0      0     0 ?        S     2016   0:00 [scsi_eh_5]
+root       551  0.0  0.0      0     0 ?        S     2016   0:00 [scsi_eh_6]
+root       655  0.0  0.0      0     0 ?        S     2016   0:00 [kdmflush]
+root       657  0.0  0.0      0     0 ?        S     2016   0:43 [kdmflush]
+root       680  0.0  0.0      0     0 ?        S     2016   8:28 [kjournald]
+root       755  0.0  0.0  11044   412 ?        S rc.d/init.d
+
+
+[00;31m/etc/rc.d/init.d binary permissions:[00m
+total 252
+drwxr-xr-x.  2 root root  4096 Apr 11 16:50 .
+drwxr-xr-x. 10 root root  4096 Apr 11 08:35 ..
+-rwxr-xr-x.  1 root root  2076 Mar 17 21:00 atd
+-rwxr-xr-x.  1 root root  3392 Mar 17 21:00 auditd
+-r-xr-xr-x.  1 root root  1354 Mar 17 21:00 blk-availability
+-rwxr-xr-x.  1 root root  2807 Mar 17 21:00 crond
+-rwxr-xr-x.  1 root root  3048 Mar 17 21:00 cups
+-rwxr-xr-x.  1 root root  1748 Mar 17 21:00 dnsmasq
+-rw-r--r--.  1 root root 18216 Jan  9  2013 functions
+-rwxr-xr-x.  1 root root  1815 Mar 17 21:00 haldaemon
+-rwxr-xr-x.  1 root root  5843 Mar 17 21:00 halt
+-rwxr-xr-x.  1 root root  9529 Mar 17 21:00 ip6tables
+-rwxr-xr-x.  1 root root  9423 Mar 17 21:00 iptables
+-rwxr-xr-x.  1 root root  4549 Mar 17 21:00 iscsi
+-rwxr-xr-x.  1 root root  4004 Mar 17 21:00 iscsid
+-rwxr-xr-x.  1 root root  1302 Mar 17 21:00 keepalived
+-rwxr-xr-x.  1 root root   652 Jan  9  2013 killall
+-r-xr-xr-x.  1 root root  2148 Mar 17 21:00 lvm2-lvmetad
+-r-xr-xr-x.  1 root root  2679 Mar 17 21:00 lvm2-monitor
+-rwxr-xr-x.  1 root root  2585 Mar 17 21:00 mdmonitor
+-rwxr-xr-x.  1 root root  2214 Mar 17 21:00 messagebus
+-rwxr-xr-x.  1 root root  2537 Mar 17 21:00 multipathd
+-rwxr-xr-x.  1 root root  3003 Mar 17 21:00 netconsole
+-rwxr-xr-x.  1 root root  5500 Mar 17 21:00 netfs
+-rwxr-xr-x.  1 root root  6334 Jan  9  2013 network
+-rwxr-xr-x.  1 root root  2219 Mar 17 21:00 NetworkManager
+-rwxr-xr-x.  1 root root  6892 Mar 17 21:00 nfs
+-rwxr-xr-x.  1 root root  3540 Mar 17 21:00 nfslock
+-rwxr-xr-x.  1 root root  1937 Mar 17 21:00 ntpd
+-rwxr-xr-x.  1 root root  2057 Mar 17 21:00 ntpdate
+-rwxr-xr-x.  1 root root  2037 Mar 17 21:00 portreserve
+-rwxr-xr-x.  1 root root  3866 Mar 17 21:00 postfix
+-rwxr-xr-x.  1 root root  1573 Mar 17 21:00 rdisc
+-rwxr-xr-x.  1 root root  1836 Mar 17 21:00 restorecond
+-rwxr-xr-x.  1 root root  2073 Feb 22  2013 rpcbind
+-rwxr-xr-x.  1 root root  2532 Mar 17 21:00 rpcgssd
+-rwxr-xr-x.  1 root root  2319 Mar 17 21:00 rpcidmapd
+-rwxr-xr-x.  1 root root  2478 Mar 17 21:00 rpcsvcgssd
+-rwxr-xr-x.  1 root root  2025 Mar 17 21:00 rsyslog
+-rwxr-xr-x.  1 root root  1712 Mar 17 21:00 sandbox
+-rwxr-xr-x.  1 root root  2056 Nov 20  2012 saslauthd
+-rwxr-xr-x   1 root root    36 Apr 11 15:43 selinux
+-rwxr-xr-x.  1 root root   661 Mar 17 21:00 single
+-rwxr-xr-x.  1 root root  2176 Mar 17 21:00 snmpd
+-rwxr-xr-x.  1 root root  1752 Mar 17 21:00 snmptrapd
+-rwxr-xr-x.  1 root root  4635 Mar 17 21:00 sshd
+-rwxr-xr-x.  1 root root  2308 Mar 17 21:00 udev-post
+-rwxr-xr-x.  1 root root  1622 Mar 17 21:00 winbind
+-rwxr-xr-x.  1 root root  1880 Mar 17 21:00 wpa_supplicant
+
+
+[00;33m### SOFTWARE #############################################[00m
+[00;31mSudo version:[00m
+Sudo version 1.8.6p3
+
+
+[00;33m### INTERESTING FILES ####################################[00m
+[00;31mUseful file locations:[00m
+/usr/bin/wget
+/usr/bin/gcc
+
+
+[00;31mCan we read/write sensitive files:[00m
+-rw-r--r-- 1 root root 1323 Apr 11 16:18 /etc/passwd
+-rw-r--r-- 1 root root 646 Jun 12  2016 /etc/group
+-rw-r--r--. 1 root root 2039 Dec 12  2014 /etc/profile
+-rw------- 1 root root 864 Apr 11 20:26 /etc/shadow
+
+
+[00;31mNFS config details: [00m
+-rw-r--r--. 1 root root 25 Dec 14  2014 /etc/exports
+/u03	192.168.99.0/24(rw)
+
+
+Can't search *.conf files as no keyword was entered
+
+Can't search *.log files as no keyword was entered
+
+Can't search *.ini files as no keyword was entered
+
+[00;31mAll *.conf files in /etc (recursive 1 level):[00m
+-rw-r--r--. 1 root root 449 Aug 18  2014 /etc/krb5.conf
+-rw-r-----. 1 root root 191 Mar  2  2012 /etc/libaudit.conf
+-rw-r--r--. 1 root root 2875 Jan 10  2013 /etc/rsyslog.conf
+-rw-r--r--. 1 root root 216 Feb 22  2013 /etc/sestatus.conf
+-rw-r--r--. 1 root root 20 Nov 22  2013 /etc/fprintd.conf
+-rw-r--r--. 1 root root 2620 Aug 17  2010 /etc/mtools.conf
+-rw-r--r--. 1 root root 801 Jul 19  2011 /etc/gssapi_mech.conf
+-rw-r--r--. 1 root root 9 Oct 15  2012 /etc/host.conf
+-rw-r-----. 1 root root 3181 Jan 24  2013 /etc/sudo-ldap.conf
+-rw-r--r--. 1 root root 1778 Jul 15  2013 /etc/ntp.conf
+-rw-r--r--. 1 root root 827 Oct 15  2014 /etc/mke2fs.conf
+-rw-r--r--. 1 root root 28 Jul 25  2013 /etc/ld.so.conf
+-rw-r--r--. 1 root root 3581 Oct 15  2014 /etc/idmapd.conf
+-rw-r--r--. 1 root root 969 Feb 22  2013 /etc/yum.conf
+-rw-r--r--. 1 root root 3605 Oct 16  2014 /etc/nfsmount.conf
+-rw-r--r--. 1 root root 519 Feb 22  2013 /etc/dracut.conf
+-rw-r--r-- 1 root root 92 Apr 13 19:54 /etc/resolv.conf
+-rw-r--r--. 1 root root 1484 Oct 15  2014 /etc/request-key.conf
+-rw-r--r--. 1 root root 370 Oct 15  2014 /etc/pm-utils-hd-apm-restore.conf
+-rw-r--r--. 1 root root 45 Feb 12  2014 /etc/Trolltech.conf
+-rw-r--r--. 1 root root 662 Aug 29  2007 /etc/logrotate.conf
+-rw-r--r--. 1 root root 148 May 15  2009 /etc/asound.conf
+-rw-r-----. 1 root root 1786 Sep 25  2012 /etc/sudo.conf
+-rw-r--r--. 1 root root 2293 Apr  5  2012 /etc/libuser.conf
+-rw-r--r--. 1 root root 0 Oct 15  2014 /etc/gai.conf
+-rw-r--r--. 1 root root 21214 Jun 16  2014 /etc/dnsmasq.conf
+-rw-r--r--. 1 root root 1688 May  5  2010 /etc/nsswitch.conf
+-rw-r--r--. 1 root root 2819 Dec 15  2014 /etc/sysctl.conf
+
+
+[00;31mCurrent user's history files:[00m
+-rw-------. 1 appusr appusr 12897 Apr 11 22:47 /home/appusr/.bash_history
+
+
+[00;31mAny interesting mail in /var/mail:[00m
+lrwxrwxrwx. 1 root root 10 Dec 11  2014 /var/mail -> spool/mail
+
+
+[00;33m### SCAN COMPLETE ####################################[00m
+
